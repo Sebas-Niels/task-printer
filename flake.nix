@@ -18,6 +18,11 @@
             pkgs.python312Packages.pip
             pkgs.python312Packages.virtualenv
           ];
+
+            shellHook = ''
+                echo "🐍 Entered Python dev shell"
+                trap 'echo "👋 Leaving Python dev shell"' EXIT
+            '';
         };
     };
 }
