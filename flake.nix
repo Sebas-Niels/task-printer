@@ -6,26 +6,26 @@
   };
 
   outputs = { self, nixpkgs }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+  let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs { inherit system; };
 
-      python = pkgs.python312.withPackages (ps: with ps; [
-        markdown
-        beautifulsoup4
-        python-escpos
-      ]);
+    python = pkgs.python311.withPackages (ps: with ps; [
+      markdown
+      beautifulsoup4
+    ]);
 
-    in {
-      devShells.${system}.default = pkgs.mkShell {
-        packages = [
-          python
-        ];
+  in {
+    devShells.${system}.default = pkgs.mkShell {
+      packages = [
+        python
+        pkgs.cups
+      ];
 
-        shellHook = ''
-          echo "🐍 Entered Python dev shell"
-          trap 'echo "👋 Leaving Python dev shell"' EXIT
-        '';
-      };
+      shellHook = ''
+        echo "🐍 Entered Python dev shell"
+        trap 'echo "👋 Leaving Python dev shell"' EXIT
+      '';
     };
+  };
 }
